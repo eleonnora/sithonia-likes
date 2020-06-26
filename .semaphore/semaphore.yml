@@ -23,3 +23,107 @@ blocks:
           value: POZ
         - name: FOO_2
           value: BAR_2
+    dependencies: []
+  - name: 'Block #2'
+    dependencies:
+      - Test
+    task:
+      jobs:
+        - name: 'Job #1'
+          commands: []
+  - name: 'Block #3'
+    dependencies:
+      - Test
+    task:
+      jobs:
+        - name: 'Job #1'
+          commands: []
+  - name: 'Block #4'
+    dependencies:
+      - Test
+    task:
+      jobs:
+        - name: 'Job #1'
+          commands: []
+  - name: 'Block #5'
+    dependencies:
+      - 'Block #10'
+      - 'Block #11'
+      - 'Block #12'
+      - 'Block #13'
+      - 'Block #14'
+      - 'Block #15'
+    task:
+      jobs:
+        - name: 'Job #1'
+          commands: []
+  - name: 'Block #6'
+    dependencies:
+      - 'Block #2'
+    task:
+      jobs:
+        - name: 'Job #1'
+          commands: []
+  - name: 'Block #7'
+    dependencies:
+      - 'Block #3'
+    task:
+      jobs:
+        - name: 'Job #1'
+          commands: []
+  - name: 'Block #8'
+    dependencies:
+      - 'Block #4'
+    task:
+      jobs:
+        - name: 'Job #1'
+          commands: []
+  - name: 'Block #9'
+    dependencies:
+      - 'Block #6'
+    task:
+      jobs:
+        - name: 'Job #1'
+          commands: []
+  - name: 'Block #10'
+    dependencies:
+      - 'Block #7'
+    task:
+      jobs:
+        - name: 'Job #1'
+          commands: []
+  - name: 'Block #11'
+    dependencies:
+      - 'Block #8'
+    task:
+      jobs:
+        - name: 'Job #1'
+          commands: []
+  - name: 'Block #12'
+    dependencies:
+      - 'Block #6'
+    task:
+      jobs:
+        - name: 'Job #1'
+          commands: []
+  - name: 'Block #13'
+    dependencies:
+      - 'Block #6'
+    task:
+      jobs:
+        - name: 'Job #1'
+          commands: []
+  - name: 'Block #14'
+    dependencies:
+      - 'Block #9'
+    task:
+      jobs:
+        - name: 'Job #1'
+          commands: []
+  - name: 'Block #15'
+    dependencies:
+      - 'Block #9'
+    task:
+      jobs:
+        - name: 'Job #1'
+          commands: []
