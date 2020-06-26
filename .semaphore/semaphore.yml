@@ -10,14 +10,7 @@ blocks:
       jobs:
         - name: Test
           commands:
-            - checkout
-            - sem-version node 12
-            - cache restore
-            - npm install
-            - cache store
-            - npm run build --if-present
-            - npm test
-            - echo $FOO_1
+            - echo HELLO
       env_vars:
         - name: FOO_1
           value: POZ
