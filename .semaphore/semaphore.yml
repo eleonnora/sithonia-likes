@@ -1,5 +1,5 @@
 version: v1.0
-name: Test MyApp
+name: deliverS3
 agent:
   machine:
     type: e1-standard-2
@@ -8,115 +8,151 @@ blocks:
   - name: Test
     task:
       jobs:
-        - name: Test
+        - name: Test 1/3
           commands:
             - echo HELLO
+        - name: Test 2/3
+          commands:
+            - echo "Hello again"
+        - name: Test 3/3
+          commands:
+            - echo "And hello again"
       env_vars:
         - name: FOO_1
           value: POZ
         - name: FOO_2
           value: BAR_2
     dependencies: []
-  - name: 'Block #2'
+  - name: Checkout
     dependencies:
       - Test
     task:
       jobs:
-        - name: 'Job #1'
-          commands: []
-  - name: 'Block #3'
+        - name: Checkout
+          commands:
+            - echo "Checkout"
+  - name: BB
     dependencies:
-      - Test
+      - Checkout
     task:
       jobs:
         - name: 'Job #1'
           commands: []
-  - name: 'Block #4'
+  - name: SC
     dependencies:
-      - Test
+      - Checkout
     task:
       jobs:
         - name: 'Job #1'
           commands: []
-  - name: 'Block #5'
+  - name: BO
     dependencies:
-      - 'Block #10'
-      - 'Block #11'
-      - 'Block #12'
-      - 'Block #13'
-      - 'Block #14'
-      - 'Block #15'
+      - Checkout
+    task:
+      jobs:
+        - name: 'Job #1'
+          commands:
+            - echo "BO"
+  - name: depsSC
+    dependencies:
+      - SC
     task:
       jobs:
         - name: 'Job #1'
           commands: []
-  - name: 'Block #6'
+  - name: buildSC
     dependencies:
-      - 'Block #2'
+      - depsSC
     task:
       jobs:
         - name: 'Job #1'
           commands: []
-  - name: 'Block #7'
+  - name: deliverSC
     dependencies:
-      - 'Block #3'
+      - buildSC
     task:
       jobs:
         - name: 'Job #1'
           commands: []
-  - name: 'Block #8'
+  - name: depsBO
     dependencies:
-      - 'Block #4'
+      - BO
     task:
       jobs:
         - name: 'Job #1'
           commands: []
-  - name: 'Block #9'
+  - name: buildBO
     dependencies:
-      - 'Block #6'
+      - depsBO
     task:
       jobs:
         - name: 'Job #1'
           commands: []
-  - name: 'Block #10'
+  - name: deliverBO
     dependencies:
-      - 'Block #7'
+      - buildBO
     task:
       jobs:
         - name: 'Job #1'
           commands: []
-  - name: 'Block #11'
+  - name: depsBB
     dependencies:
-      - 'Block #8'
+      - BB
     task:
       jobs:
         - name: 'Job #1'
           commands: []
-  - name: 'Block #12'
+  - name: buildS1
     dependencies:
-      - 'Block #6'
+      - depsBB
     task:
       jobs:
         - name: 'Job #1'
           commands: []
-  - name: 'Block #13'
+  - name: buildS2
     dependencies:
-      - 'Block #6'
+      - depsBB
     task:
       jobs:
         - name: 'Job #1'
           commands: []
-  - name: 'Block #14'
+  - name: buildS3
     dependencies:
-      - 'Block #9'
+      - depsBB
     task:
       jobs:
         - name: 'Job #1'
           commands: []
-  - name: 'Block #15'
+  - name: deliverS1
     dependencies:
-      - 'Block #9'
+      - buildS1
     task:
       jobs:
         - name: 'Job #1'
           commands: []
+  - name: deliverS2
+    dependencies:
+      - buildS2
+    task:
+      jobs:
+        - name: 'Job #1'
+          commands: []
+  - name: deliverS3
+    dependencies:
+      - buildS3
+    task:
+      jobs:
+        - name: 'Job #1'
+          commands: []
+  - name: FINISH
+    dependencies:
+      - deliverBO
+      - deliverS1
+      - deliverS2
+      - deliverS3
+      - deliverSC
+    task:
+      jobs:
+        - name: 'Job #1'
+          commands:
+            - echo "Done?"
